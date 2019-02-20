@@ -1,22 +1,37 @@
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+package testcases;
 
+import base.BaseClass;
+import static io.restassured.RestAssured.given;
 import io.restassured.http.ContentType;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import static org.hamcrest.Matchers.equalTo;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 
-public class GetCalendarTest extends BassClass {
+public class GetCalendarTest extends BaseClass {
+
+    public GetCalendarTest(){
+        super();
+    }
+
+    @BeforeMethod
+    public void setUp(){
+
+        try {
+            init();
+        }
+            catch (GeneralSecurityException e){
+            System.out.println("General Security Exception Thrown");
+
+        }   catch (IOException e){
+            System.out.println("IO Exception thrown");
+        }
+    }
 
     @Test
-    public void testGetCalendar() throws IOException, GeneralSecurityException {
-
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-
-        String accessToken = getCredentials(HTTP_TRANSPORT).getAccessToken();
+    public void testGetCalendar(){
 
         System.out.println("What is the token" + accessToken);
 
@@ -26,7 +41,7 @@ public class GetCalendarTest extends BassClass {
                 when().get("/coopletest83@gmail.com").then()
                 .log().all()
                 .assertThat().statusCode(200).and().contentType(ContentType.JSON);
-/*
+
         given().
                 baseUri(calendarUrl).
                 auth().oauth2(accessToken).
@@ -44,8 +59,6 @@ public class GetCalendarTest extends BassClass {
                 auth().oauth2(accessToken).
                 when().get("/coopletest83@gmail.com").then()
                 .assertThat().body("timeZone", equalTo("Europe/London"));
-
-                */
     }
 
 

@@ -1,19 +1,22 @@
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
+package testcases;
+
+import base.BaseClass;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.junit.Test;
-
-import java.io.IOException;
-import java.security.GeneralSecurityException;
+import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class TestPostEvents extends BassClass {
+public class TestPostEvents extends BaseClass {
 
+    public TestPostEvents(){
+        super();
+    }
+
+    // This could be done in a seperate package
     public Event event(){
 
         Event event = new Event()
@@ -37,11 +40,7 @@ public class TestPostEvents extends BassClass {
     }
 
     @Test
-    public void testPostEvents()throws IOException, GeneralSecurityException {
-
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-
-        String accessToken = BassClass.getCredentials(HTTP_TRANSPORT).getAccessToken();
+    public void testPostEvents(){
 
         Response response = given().
                 baseUri(calendarUrl).
